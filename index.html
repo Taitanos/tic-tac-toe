@@ -4,32 +4,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
 
     <!-- Don't use this in production -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <title>Document</title>
 </head>
 <body>
-<div class="game">
-    <div class="game-info">
-        Ход: <span class="symbol symbol--x">X</span>
-    </div>
-    <div class="game-field">
-        <button class="cell cell--win"><span class="symbol symbol--x">X</span></button>
-        <button class="cell"><span class="symbol symbol--o">O</span></button>
-        <button class="cell"></button>
-        <button class="cell cell--win"><span class="symbol symbol--x">X</span></button>
-        <button class="cell"></button>
-        <button class="cell"><span class="symbol symbol--o">O</span></button>
-        <button class="cell cell--win"><span class="symbol symbol--x">X</span></button>
-        <button class="cell"><span class="symbol symbol--o">O</span></button>
-        <button class="cell"></button>
-    </div>
-</div>
+<div id="root"></div>
 
-<script>
+<script type="text/babel">
+
+    const SYMBOL_X = 'X'
+    const SYMBOL_O = 'O'
+
+    function App() {
+
+        const cells = [SYMBOL_O, null, null, SYMBOL_O, SYMBOL_X, null, null, null, null]
+
+        const currentStep = SYMBOL_O
+        const getSymbolClassName = (symbol) => {
+            if (symbol === SYMBOL_O) return 'symbol--o'
+            if (symbol === SYMBOL_X) return 'symbol--x'
+            return ''
+        }
+
+        const renderSymbol = (symbol) => {
+            return <span className={`symbol ${getSymbolClassName(symbol)}`}>{symbol}</span>
+        }
+
+        return (
+            <div className="game">
+                <div className="game-info">
+                    Ход: {renderSymbol(currentStep)}
+                </div>
+                <div className="game-field">
+
+                    {cells.map((symbol, index) => {
+                        return <button key={index} className="cell ">{symbol ? renderSymbol(symbol) : null}</button>
+                    })}
+
+                </div>
+            </div>
+        )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+
+    root.render(<App/>)
 
 </script>
 
